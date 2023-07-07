@@ -9,7 +9,13 @@ const AddUser = (props) => {
 
   const addUserHandler = (e) => {
     e.preventDefault();
+    if (username.trim().length === 0 || age.trim().length === 0 || age < 0) {
+      return;
+    }
+
     console.log(username, age);
+    setUsername("");
+    setAge("");
   };
   return (
     <Card className={classes.input}>
