@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import Card from "../UI/Card";
 import classes from "./AddUser.module.css";
 import Button from "../UI/Button";
+import ErrorModal from "../UI/ErrorModal";
 
 const AddUser = (props) => {
   const [username, setUsername] = useState("");
   const [age, setAge] = useState("");
+  const [error, setError] = useState(false);
 
   const addUserHandler = (e) => {
     e.preventDefault();
     if (username.trim().length === 0 || age.trim().length === 0 || age < 0) {
-      return;
+      return setError(true);
     }
 
     props.onAddUser(username, age);
@@ -18,26 +20,31 @@ const AddUser = (props) => {
     setAge("");
   };
   return (
-    <Card className={classes.input}>
-      <form action="" onSubmit={addUserHandler}>
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <label htmlFor="age">Age (Yeaer)</label>
-        <input
-          type="number"
-          name=""
-          id="age"
-          value={age}
-          onChange={(e) => setAge(e.target.value)}
-        />
-        <Button type="submit">Add User</Button>
-      </form>
-    </Card>
+    <>
+      {error && (
+        <ErrorModal title="Error Occured" message="Something went wrong!" />
+      )}
+      <Card className={classes.input}>
+        <form action="" onSubmit={addUserHandler}>
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <label htmlFor="age">Age (Year)</label>
+          <input
+            type="number"
+            name=""
+            id="age"
+            value={age}
+            onChange={(e) => setAge(e.target.value)}
+          />
+          <Button type="submit">Add User</Button>
+        </form>
+      </Card>
+    </>
   );
 };
 
